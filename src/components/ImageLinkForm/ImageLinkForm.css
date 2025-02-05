@@ -1,0 +1,5 @@
+.form {
+    width: 700px;
+    background: hsla(4, 48%, 94%, 1);
+    background: linear-gradient(90deg, hsla(4, 48%, 94%, 1) 0%, hsla(66, 38%, 95%, 1) 50%, hsla(226, 67%, 76%, 1) 100%);
+}
