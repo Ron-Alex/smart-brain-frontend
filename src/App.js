@@ -69,13 +69,32 @@ function App() {
   const onBtnSubmit = () => {
     setURL(input); // Set the image URL
 
-    fetch("https://quiet-shelf-08190-ced9ba4506b3.herokuapp.com/clarifai"), {
-      method: 'get',
+    fetch("https://quiet-shelf-08190-ced9ba4506b3.herokuapp.com/clarifai", {
+      method: 'put',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        imageURL: URL
+        imageURL: input
       })
-    }
+    })
+    .then(response => response.json())
+    .then((result) => {
+      const regions = result.outputs[0]?.data?.regions;
+      if (!regions) throw new Error('No regions found in the response.');
+
+      const newBoxes = regions.map((region) => {
+        const boundingBox = region.region_info.bounding_box;
+        
+        return calculateFaceLocation({
+          topRow: boundingBox.top_row,                  
+          leftCol: boundingBox.left_col,
+          bottomRow: boundingBox.bottom_row,
+          rightCol: boundingBox.right_col,
+        });
+      });
+
+      setBox(newBoxes); // Set state with the new bounding boxes (replacing old boxes)
+    })
+
     
     fetch("https://quiet-shelf-08190-ced9ba4506b3.herokuapp.com/image", {
       method: 'put',
