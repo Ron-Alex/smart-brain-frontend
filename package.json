@@ -2,6 +2,10 @@
   "name": "facerecog",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
   "dependencies": {
     "browserify-zlib": "^0.2.0",
     "cors": "^2.8.5",
